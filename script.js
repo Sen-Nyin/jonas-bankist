@@ -9,6 +9,10 @@ const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.getElementById('section--1');
+const navbar = document.querySelector('.nav');
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
 
 const openModal = function () {
   modal.classList.remove('hidden');
@@ -47,12 +51,28 @@ btnScrollTo.addEventListener('click', function (e) {
   section1.scrollIntoView({ behavior: 'smooth' });
 });
 
+// Nav animation
+const handleHover = function (event) {
+  if (event.target.classList.contains('nav__link')) {
+    const link = event.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+    siblings.forEach((element) => {
+      if (element !== link) {
+        element.style.opacity = this;
+      }
+      logo.style.opacity = this;
+    });
+  }
+};
+
+// navbar.addEventListener('mouseover', (e) => handleHover(e, 0.5));
+// navbar.addEventListener('mouseout', (e) => handleHover(e, 1));
+
+navbar.addEventListener('mouseover', handleHover.bind(0.5));
+navbar.addEventListener('mouseout', handleHover.bind(1));
 // ///////////////////////////////////////
 // // tabbed content
-
-const tabs = document.querySelectorAll('.operations__tab');
-const tabsContainer = document.querySelector('.operations__tab-container');
-const tabsContent = document.querySelectorAll('.operations__content');
 
 tabsContainer.addEventListener('click', function (e) {
   const clicked = e.target.closest('.operations__tab');
@@ -66,6 +86,5 @@ tabsContainer.addEventListener('click', function (e) {
   const contentTarget = document.querySelector(
     `.operations__content--${clicked.dataset.tab}`
   );
-  console.log(contentTarget);
   contentTarget.classList.add('operations__content--active');
 });
