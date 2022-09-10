@@ -71,6 +71,7 @@ const handleHover = function (event) {
 
 navbar.addEventListener('mouseover', handleHover.bind(0.5));
 navbar.addEventListener('mouseout', handleHover.bind(1));
+
 // ///////////////////////////////////////
 // // tabbed content
 
@@ -88,3 +89,27 @@ tabsContainer.addEventListener('click', function (e) {
   );
   contentTarget.classList.add('operations__content--active');
 });
+
+// ///////////////////////////////////////
+// // sticky navbar
+
+const header = document.querySelector('.header');
+const navBarHeight = navbar.getBoundingClientRect().height; // get the height of the navbar
+
+// entries is object passed when observer is triggered
+const stickyNav = (entries) => {
+  const [entry] = entries;
+  console.log(entry);
+  console.log(entries);
+  if (!entry.isIntersecting) navbar.classList.add('sticky');
+  else navbar.classList.remove('sticky');
+};
+
+const observerOptions = {
+  root: null,
+  rootMargin: `-${navBarHeight}px`,
+  threshhold: 0,
+};
+
+const observeHeader = new IntersectionObserver(stickyNav, observerOptions);
+observeHeader.observe(header);
