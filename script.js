@@ -143,7 +143,8 @@ allSections.forEach((section) => {
 const lazyImages = document.querySelectorAll('img[data-src]');
 const lazyImageObserveOptions = {
   root: null,
-  threshold: 0.15,
+  threshold: 0,
+  rootMargin: '200px',
 };
 const revealLazyImage = (entries, observer) => {
   const [entry] = entries;
