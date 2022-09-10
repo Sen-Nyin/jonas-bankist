@@ -94,22 +94,45 @@ tabsContainer.addEventListener('click', function (e) {
 // // sticky navbar
 
 const header = document.querySelector('.header');
-const navBarHeight = navbar.getBoundingClientRect().height; // get the height of the navbar
+const navBarHeight = navbar.getBoundingClientRect().height;
 
 // entries is object passed when observer is triggered
 const stickyNav = (entries) => {
   const [entry] = entries;
-  console.log(entry);
-  console.log(entries);
   if (!entry.isIntersecting) navbar.classList.add('sticky');
   else navbar.classList.remove('sticky');
 };
 
-const observerOptions = {
+const headObserveOptions = {
   root: null,
   rootMargin: `-${navBarHeight}px`,
-  threshhold: 0,
+  threshold: 0,
 };
 
-const observeHeader = new IntersectionObserver(stickyNav, observerOptions);
+const observeHeader = new IntersectionObserver(stickyNav, headObserveOptions);
 observeHeader.observe(header);
+
+// ///////////////////////////////////////
+// // reveal sections
+
+const allSections = document.querySelectorAll('.section');
+
+const revealSection = (entries, observer) => {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target);
+};
+const sectionObserveOptions = {
+  root: null,
+  threshold: 0.2,
+};
+const observeSection = new IntersectionObserver(
+  revealSection,
+  sectionObserveOptions
+);
+
+allSections.forEach((section) => {
+  observeSection.observe(section);
+  section.classList.add('section--hidden');
+});
