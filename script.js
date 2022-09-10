@@ -35,18 +35,6 @@ document.addEventListener('keydown', function (e) {
 // ///////////////////////////////////////
 // // Page Navigation
 
-// the old way - not efficient
-
-// document.querySelectorAll('.nav__link').forEach(function (el) {
-//   el.addEventListener('click', function (e) {
-//     e.preventDefault();
-//     const id = this.getAttribute('href');
-//     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
-//   });
-// });
-
-// the best way - event delegation
-
 document.querySelector('.nav__links').addEventListener('click', function (e) {
   e.preventDefault();
   if (e.target.classList.contains('nav__link')) {
@@ -57,4 +45,27 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 
 btnScrollTo.addEventListener('click', function (e) {
   section1.scrollIntoView({ behavior: 'smooth' });
+});
+
+// ///////////////////////////////////////
+// // tabbed content
+
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+tabsContainer.addEventListener('click', function (e) {
+  const clicked = e.target.closest('.operations__tab');
+  if (!clicked) return;
+  tabs.forEach((tab) => tab.classList.remove('operations__tab--active'));
+  clicked.classList.add('operations__tab--active');
+
+  tabsContent.forEach((content) =>
+    content.classList.remove('operations__content--active')
+  );
+  const contentTarget = document.querySelector(
+    `.operations__content--${clicked.dataset.tab}`
+  );
+  console.log(contentTarget);
+  contentTarget.classList.add('operations__content--active');
 });
