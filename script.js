@@ -161,3 +161,42 @@ const observeLazyImage = new IntersectionObserver(
 );
 
 lazyImages.forEach((image) => observeLazyImage.observe(image));
+
+// ///////////////////////////////////////
+// // slider component
+
+const slides = document.querySelectorAll('.slide');
+const slider = document.querySelector('.slider');
+const sliderBtnLeft = document.querySelector('.slider__btn--left');
+const sliderBtnRight = document.querySelector('.slider__btn--right');
+const maxSlides = slides.length;
+let currentSlide = 0;
+
+const goToSlide = (curSlide) => {
+  slides.forEach(
+    (slide, index) =>
+      (slide.style.transform = `translateX(${(index - curSlide) * 100}%)`)
+  );
+};
+goToSlide(0);
+
+const nextSlide = () => {
+  if (currentSlide === maxSlides - 1) {
+    currentSlide = 0;
+  } else {
+    currentSlide++;
+  }
+  goToSlide(currentSlide);
+};
+
+const prevSlide = () => {
+  if (currentSlide === 0) {
+    currentSlide = maxSlides - 1;
+  } else {
+    currentSlide--;
+  }
+  goToSlide(currentSlide);
+};
+
+sliderBtnRight.addEventListener('click', nextSlide);
+sliderBtnLeft.addEventListener('click', prevSlide);
